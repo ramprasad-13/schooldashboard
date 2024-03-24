@@ -109,7 +109,7 @@ const Header = () => {
         </div>) :(data.map((student) => (
            (
             <div className="col-lg-3 col-md-4 col-sm-6 mx-auto mt-5 mb-5 card" key={student._id} style={{width:'20rem'}}>
-            <img src={student.profilepic} className="card-img-top" alt="student profile pic" style={{ borderRadius:"8px", objectFit:"contain", minHeight:"18rem", maxHeight:"18rem" ,transform: "scale(0.8)", transition: "transform 0.3s ease" }} onMouseOver={(e) => { e.target.style.transform = "scale(1.3)"; }} onMouseOut={(e) => { e.target.style.transform = "scale(0.8)"; }} />
+            <img src={student.profilepic} className="card-img-top" alt="student profile pic" style={{ borderRadius:"8px", objectFit:"contain", minHeight:"18rem", maxHeight:"18rem" ,transform: "scale(0.85)", transition: "transform 0.3s ease" }} onMouseOver={(e) => { e.target.style.transform = "scale(0.9)"; }} onMouseOut={(e) => { e.target.style.transform = "scale(0.8)"; }} />
             <div className="card-body">
             <h5 className="card-title"><i className="bi bi-person-fill"></i>  {student.std_name}</h5>
             <span>Father: </span><span className="card-title h5">{student.father_name}</span>
