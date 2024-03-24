@@ -44,7 +44,8 @@ const Header = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://schoolbackend-one.vercel.app/${approved}?name=${searchName}&page=${currentPage}`);
+        const url=searchName!=""?`https://schoolbackend-one.vercel.app/${approved}?name=${searchName}`:`https://schoolbackend-one.vercel.app/${approved}?page=${currentPage}`
+        const response = await axios.get(url);
         setData(response.data.data);
         setCurrentPage(response.data.currentPage);
         setTotalPages(response.data.totalPages)
@@ -54,7 +55,7 @@ const Header = () => {
       }
     };
     fetchData();
-  }, [currentPage,searchName,totalPages,approved]);
+  }, [currentPage,searchName,approved]);
 
   const removebtn = async (id) => {
     let url = `https://schoolbackend-one.vercel.app/delete/${id}`;
@@ -95,9 +96,9 @@ const Header = () => {
       </div>
     </nav>
 
-    <div className="form-check form-switch">
-        <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onChange={()=>{approved==="students"?setApproved("validatestudents"):setApproved("students")}} />
-        <label className="form-check-label" htmlFor="flexSwitchCheckDefault">Show Verified Students</label>
+    <div className="form-check form-switch d-flex justify-content-end m-2">
+        <label className="form-check-label pe-5" htmlFor="flexSwitchCheckDefault">Show Verified Students</label>
+        <input className="form-check-input me-2" type="checkbox" id="flexSwitchCheckDefault" onChange={()=>{approved==="students"?setApproved("validatestudents"):setApproved("students")}} />
     </div>
 
       <div className="container mt-5 mb-5">
