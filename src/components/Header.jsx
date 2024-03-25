@@ -1,38 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import PropTypes from 'prop-types';
-
-
-const Pagination = ({ currentPage, setCurrentPage, totalPages }) => {
-  const pageNumbers = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pageNumbers.push(i);
-  }
-
-  return (
-    <nav aria-label="Page navigation example">
-      <ul className="pagination justify-content-center">
-        <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-          <a className="page-link" onClick={() => setCurrentPage(currentPage - 1)}>Previous</a>
-        </li>
-        {pageNumbers.map(number => (
-          <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
-            <a className="page-link" onClick={() => setCurrentPage(number)}>{number}</a>
-          </li>
-        ))}
-        <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-          <a className="page-link" onClick={() => setCurrentPage(currentPage + 1)}>Next</a>
-        </li>
-      </ul>
-    </nav>
-  );
-};
-
-Pagination.propTypes = {
-    currentPage: PropTypes.number.isRequired,
-    setCurrentPage: PropTypes.func.isRequired,
-    totalPages: PropTypes.number.isRequired,
-}
+import Pagination from './Pagination';
 
 const Header = () => {
   const [data, setData] = useState([]);
@@ -41,21 +9,22 @@ const Header = () => {
   const [totalPages,setTotalPages]= useState(0);
   const [approved,setApproved]=useState('validatestudents');
 
+  const fetchData = async () => {
+    try {
+      const url=searchName!=""?`https://schoolbackend-one.vercel.app/${approved}?name=${searchName}`:`https://schoolbackend-one.vercel.app/${approved}?page=${currentPage}`
+      const response = await axios.get(url);
+      setData(response.data.data);
+      setTotalPages(response.data.totalPages)
+    } catch (error) {
+      console.error('Error fetching data: ', error);
+      // Handle the error. You might want to set some state here.
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const url=searchName!=""?`https://schoolbackend-one.vercel.app/${approved}?name=${searchName}`:`https://schoolbackend-one.vercel.app/${approved}?page=${currentPage}`
-        const response = await axios.get(url);
-        setData(response.data.data);
-        setCurrentPage(response.data.currentPage);
-        setTotalPages(response.data.totalPages)
-      } catch (error) {
-        console.error('Error fetching data: ', error);
-        // Handle the error. You might want to set some state here.
-      }
-    };
     fetchData();
-  }, [currentPage,searchName,approved]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, searchName, approved]);
 
   const removebtn = async (id) => {
     let url = `https://schoolbackend-one.vercel.app/delete/${id}`;
@@ -109,7 +78,7 @@ const Header = () => {
         </div>) :(data.map((student) => (
            (
             <div className="col-lg-3 col-md-4 col-sm-6 mx-auto mt-5 mb-5 card" key={student._id} style={{width:'20rem'}}>
-            <img src={student.profilepic} className="card-img-top" alt="student profile pic" style={{ borderRadius:"8px", objectFit:"contain", minHeight:"18rem", maxHeight:"18rem" ,transform: "scale(0.85)", transition: "transform 0.3s ease" }} onMouseOver={(e) => { e.target.style.transform = "scale(0.9)"; }} onMouseOut={(e) => { e.target.style.transform = "scale(0.8)"; }} />
+            <img src={student.profilepic} className="card-img-top" alt="student profile pic" style={{ borderRadius:"8px", objectFit:"contain", minHeight:"18rem", maxHeight:"18rem" ,transform: "scale(0.85)", transition: "transform 0.3s ease" }} onMouseOver={(e) => { e.target.style.transform = "scale(0.9)"; }} onMouseOut={(e) => { e.target.style.transform = "scale(0.85)"; }} />
             <div className="card-body">
             <h5 className="card-title"><i className="bi bi-person-fill"></i>  {student.std_name}</h5>
             <span>Father: </span><span className="card-title h5">{student.father_name}</span>
