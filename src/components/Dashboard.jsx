@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 import Header from './Header';
-import Pagination from './Pagination';
 import Footer from './Footer';
 import axios from 'axios';
 
@@ -28,6 +27,11 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (status !== 200) {
+      navigate('/');
+    }
+  }, [status, navigate]);
 
   if (status === 200) {
     return (
@@ -37,6 +41,6 @@ export default function Dashboard() {
       </>
     );
   } else {
-    return navigate('/'); // or a loading spinner
+    return null; // or a loading spinner
   }
 }
