@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 export default function Login() {
   const [email,setEmail]= useState('');
   const [otp,setOtp]= useState('');
+  const navigate = useNavigate()
   axios.defaults.withCredentials = true;
 
   const handleEmailChange = (e)=>{
@@ -54,6 +56,9 @@ export default function Login() {
       const res = await axios.post(`https://schoolbackend-one.vercel.app/verify`,data);
       console.log(res.data)
       localStorage.setItem("token", res.data.token);
+
+      //Readirect to dashboard
+      navigate('/dashboard');
 
       //If an error messsage is already present clear it
       const errormessage='';

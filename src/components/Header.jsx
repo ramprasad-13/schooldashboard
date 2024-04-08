@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import Pagination from './Pagination';
 
@@ -8,18 +9,25 @@ const Header = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages,setTotalPages]= useState(0);
   const [approved,setApproved]=useState('validatestudents');
+  const navigate= useNavigate()
 
   const fetchData = async () => {
     try {
-      const url=searchName!=""?`https://schoolbackend-one.vercel.app/${approved}?name=${searchName}`:`https://schoolbackend-one.vercel.app/${approved}?page=${currentPage}`
-      const response = await axios.get(url);
+      const token = localStorage.getItem('token'); // replace 'token' with your actual token key
+      const url = searchName !== "" ? `https://schoolbackend-one.vercel.app/${approved}?name=${searchName}` : `https://schoolbackend-one.vercel.app/${approved}?page=${currentPage}`;
+      const response = await axios.get(url, {
+        headers: {
+          'Authorization': `${token}`, // replace 'Bearer' with your actual token type
+        }
+      });
       setData(response.data.data);
-      setTotalPages(response.data.totalPages)
+      setTotalPages(response.data.totalPages);
     } catch (error) {
       console.error('Error fetching data: ', error);
       // Handle the error. You might want to set some state here.
     }
   };
+  
 
   useEffect(() => {
     fetchData();
@@ -60,7 +68,8 @@ const Header = () => {
         <a className="navbar-brand">Dashboard</a>
         <form className="d-flex" role="search">
           <input className="form-control me-2" type="search" value={searchName} onChange={(e)=>{setSearchName(e.target.value)}} placeholder="Search" aria-label="Search" />
-          <button className="btn btn-dark">Logout</button>
+          <button className="btn btn-dark" onClick={(e)=>{e.preventDefault(); localStorage.removeItem('token'); navigate('/')
+}}>Logout</button>
         </form>
       </div>
     </nav>
