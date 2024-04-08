@@ -34,40 +34,43 @@ const Header = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentPage, searchName, approved]);
 
-  const removebtn = async (id) => {
-    let url = `https://schoolbackend-one.vercel.app/delete/${id}`;
-    try {
-      await axios.delete(url);
-      const URL = await axios.get(`https://schoolbackend-one.vercel.app/${approved}?name=${searchName}&page=${currentPage}`);
-      const response = await axios.get(URL, {
-        headers: {
-          'Authorization': `${token}`, // replace 'Bearer' with your actual token type
-        }})
-      setData(response.data.data);
-      setCurrentPage(response.data.currentPage);
-      setTotalPages(response.data.totalPages)
-    } catch (error) {
-      console.log('Error deleting candidate', error);
-    }
-  };
+const removebtn = async (id) => {
+  let url = `https://schoolbackend-one.vercel.app/delete/${id}`;
+  try {
+    const token = localStorage.getItem('token'); // define token here
+    await axios.delete(url);
+    const URL = `https://schoolbackend-one.vercel.app/${approved}?name=${searchName}&page=${currentPage}`;
+    const response = await axios.get(URL, {
+      headers: {
+        'Authorization': `${token}`, // now token is defined
+      }})
+    setData(response.data.data);
+    setCurrentPage(response.data.currentPage);
+    setTotalPages(response.data.totalPages)
+  } catch (error) {
+    console.log('Error deleting candidate', error);
+  }
+};
 
-  const addbtn = async (id) => {
-    let url = `https://schoolbackend-one.vercel.app/update/${id}`;
-    try {
-      await axios.patch(url,{approved:true});
-      const URL = await axios.get(`https://schoolbackend-one.vercel.app/${approved}?name=${searchName}&page=${currentPage}`);
-      const response = await axios.get(URL, {
-        headers: {
-          'Authorization': `${token}`, // replace 'Bearer' with your actual token type
-        }})
-        
-      setData(response.data.data);
-      setCurrentPage(response.data.currentPage);
-      setTotalPages(response.data.totalPages)
-    } catch (error) {
-      console.log('Error deleting candidate', error);
-    }
-  };
+const addbtn = async (id) => {
+  let url = `https://schoolbackend-one.vercel.app/update/${id}`;
+  try {
+    const token = localStorage.getItem('token'); // define token here
+    await axios.patch(url,{approved:true});
+    const URL = `https://schoolbackend-one.vercel.app/${approved}?name=${searchName}&page=${currentPage}`;
+    const response = await axios.get(URL, {
+      headers: {
+        'Authorization': `${token}`, // now token is defined
+      }})
+      
+    setData(response.data.data);
+    setCurrentPage(response.data.currentPage);
+    setTotalPages(response.data.totalPages)
+  } catch (error) {
+    console.log('Error updating candidate', error);
+  }
+};
+
 
 
   return (
