@@ -17,6 +17,7 @@ export default function Login() {
     //sending otp here
     try {
       //console.log("trying to send otp to",email); for checking
+      axios.defaults.withCredentials = true;
       const data={
         email:email
       }
