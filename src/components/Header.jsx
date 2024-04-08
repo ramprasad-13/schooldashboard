@@ -38,7 +38,11 @@ const Header = () => {
     let url = `https://schoolbackend-one.vercel.app/delete/${id}`;
     try {
       await axios.delete(url);
-      const response = await axios.get(`https://schoolbackend-one.vercel.app/${approved}?name=${searchName}&page=${currentPage}`);
+      const URL = await axios.get(`https://schoolbackend-one.vercel.app/${approved}?name=${searchName}&page=${currentPage}`);
+      const response = await axios.get(URL, {
+        headers: {
+          'Authorization': `${token}`, // replace 'Bearer' with your actual token type
+        }})
       setData(response.data.data);
       setCurrentPage(response.data.currentPage);
       setTotalPages(response.data.totalPages)
@@ -51,7 +55,12 @@ const Header = () => {
     let url = `https://schoolbackend-one.vercel.app/update/${id}`;
     try {
       await axios.patch(url,{approved:true});
-      const response = await axios.get(`https://schoolbackend-one.vercel.app/${approved}?name=${searchName}&page=${currentPage}`);
+      const URL = await axios.get(`https://schoolbackend-one.vercel.app/${approved}?name=${searchName}&page=${currentPage}`);
+      const response = await axios.get(URL, {
+        headers: {
+          'Authorization': `${token}`, // replace 'Bearer' with your actual token type
+        }})
+        
       setData(response.data.data);
       setCurrentPage(response.data.currentPage);
       setTotalPages(response.data.totalPages)
