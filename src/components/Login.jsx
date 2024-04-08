@@ -22,7 +22,7 @@ export default function Login() {
         email:email
       }
       const res = await axios.post(`https://schoolbackend-one.vercel.app/login`,data)
-      console.log(res)
+      console.log(res.data)
 
       //If an error messsage is already present clear it
       const errormessage='';
@@ -52,7 +52,7 @@ export default function Login() {
         otp:otp
       }
       const res = await axios.post(`https://schoolbackend-one.vercel.app/verify`,data);
-      console.log(res.status)
+      console.log(res.data)
 
       //If an error messsage is already present clear it
       const errormessage='';
