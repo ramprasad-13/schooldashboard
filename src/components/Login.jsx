@@ -4,7 +4,6 @@ import axios from 'axios'
 export default function Login() {
   const [email,setEmail]= useState('');
   const [otp,setOtp]= useState('');
-  axios.defaults.withCredentials = true;
 
   const handleEmailChange = (e)=>{
     setEmail(e.target.value);
