@@ -28,11 +28,6 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    if (status !== 200 && status !== null) {
-      navigate('/');
-    }
-  }, [status, navigate]);
 
   if (status === 200) {
     return (
@@ -42,6 +37,6 @@ export default function Dashboard() {
       </>
     );
   } else {
-    return null; // or a loading spinner
+    return navigate('/'); // or a loading spinner
   }
 }
