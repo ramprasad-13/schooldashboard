@@ -22,7 +22,7 @@ export default function Login() {
         email:email
       }
       const res = await axios.post(`https://schoolbackend-one.vercel.app/login`,data)
-      console.log(res.data)
+      console.log(res)
 
       //If an error messsage is already present clear it
       const errormessage='';
