@@ -53,6 +53,7 @@ export default function Login() {
       }
       const res = await axios.post(`https://schoolbackend-one.vercel.app/verify`,data);
       console.log(res.data)
+      localStorage.setItem("token", res.data.token);
 
       //If an error messsage is already present clear it
       const errormessage='';
