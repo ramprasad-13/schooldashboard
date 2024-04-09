@@ -37,38 +37,47 @@ const Header = () => {
   const removebtn = async (id) => {
     let url = `https://schoolbackend-one.vercel.app/delete/${id}`;
     try {
-      await axios.delete(url);
-      const URL = await axios.get(`https://schoolbackend-one.vercel.app/${approved}?name=${searchName}&page=${currentPage}`);
+      const token = localStorage.getItem('token'); // replace 'token' with your actual token key
+      await axios.delete(url, {
+        headers: {
+          'Authorization': `${token}`, // replace 'Bearer' with your actual token type
+        }
+      });
+      const URL = `https://schoolbackend-one.vercel.app/${approved}?name=${searchName}&page=${currentPage}`;
       const response = await axios.get(URL, {
         headers: {
           'Authorization': `${token}`, // replace 'Bearer' with your actual token type
-        }})
+        }
+      });
       setData(response.data.data);
-      setCurrentPage(response.data.currentPage);
       setTotalPages(response.data.totalPages)
     } catch (error) {
       console.log('Error deleting candidate', error);
     }
   };
-
+  
   const addbtn = async (id) => {
     let url = `https://schoolbackend-one.vercel.app/update/${id}`;
     try {
-      await axios.patch(url,{approved:true});
-      const URL = await axios.get(`https://schoolbackend-one.vercel.app/${approved}?name=${searchName}&page=${currentPage}`);
+      const token = localStorage.getItem('token'); // replace 'token' with your actual token key
+      await axios.patch(url, {approved:true}, {
+        headers: {
+          'Authorization': `${token}`, // replace 'Bearer' with your actual token type
+        }
+      });
+      const URL = `https://schoolbackend-one.vercel.app/${approved}?name=${searchName}&page=${currentPage}`;
       const response = await axios.get(URL, {
         headers: {
           'Authorization': `${token}`, // replace 'Bearer' with your actual token type
-        }})
-        
+        }
+      });
       setData(response.data.data);
-      setCurrentPage(response.data.currentPage);
       setTotalPages(response.data.totalPages)
     } catch (error) {
-      console.log('Error deleting candidate', error);
+      console.log('Error updating candidate', error);
     }
   };
-
+  
 
   return (
     <>
